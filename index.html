@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/myStyles.css">
+    <link rel="stylesheet"  type="text/css"   href="css/all.css"> 
+    <title>My Task List Trackers</title>
+</head>
+<body>
+  <div id="container">
+
+    <div id="toDoContainer">
+        <h1>To Do Lists</h1>
+        <div id="input-container">
+            <input type="text" id="myInput" placeholder="Add your input here . . .">
+            <button onclick="addTask()" >Add</button>
+        </div>
+        <ul class="myList" id="myList">
+            
+        </ul>
+    <div id="myMessage" style="text-align: center;font-weight: bold;"></div>
+    </div>
+    
+
+  </div>
+  <script>
+        inputValue = document.getElementById('myInput');
+        myList = document.getElementById('myList');
+        myMessage = document.getElementById('myMessage');
+            addTask = () => {   
+                if(inputValue.value.trim() == ""){
+                    myMessage.innerHTML = "Please make sure that input is not empty";
+                }
+                else{
+                    let newLi = document.createElement("li");
+                    newLi.innerHTML =  inputValue.value;
+                    myList.appendChild(newLi);
+                    let span = document.createElement("span");
+                    span.innerHTML = "\u00d7";
+                    newLi.appendChild(span);
+                }
+                inputValue.value = "";
+                saveInput();
+            }
+
+            myList.addEventListener("click", (e) =>{
+                if(e.target.tagName === "LI"){
+                    e.target.classList.toggle("checked");
+                    saveInput();
+                }
+                else if(e.target.tagName === "SPAN"){
+                    e.target.parentNode.remove();
+                    saveInput();
+                }
+            });
+
+           
+          saveInput = () => {
+            localStorage.setItem("myTask", myList.innerHTML);
+          }
+
+          showTask = () => {
+            myList.innerHTML = localStorage.getItem("myTask");
+          }
+
+          showTask();
+  </script>
+</body>
+</html>
+
+ 
